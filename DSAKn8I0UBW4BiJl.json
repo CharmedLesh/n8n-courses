@@ -1,0 +1,131 @@
+{
+  "updatedAt": "2026-10-13T10:27:43.728Z",
+  "createdAt": "2026-10-10T04:37:51.432Z",
+  "id": "DSAKn8I0UBW4BiJl",
+  "name": "Monitor Report Errors",
+  "description": null,
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "5cab86e3-7592-4a63-a531-ebc9cb5c52e4",
+      "name": "Error Trigger"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3c77d993-0e2d-4712-b6ea-b097243f0f0c",
+              "name": "content",
+              "value": "=[6d8c13525788422441ad6d8b4e080b6d] Workflow Error Alert - Workflow: {{ $json.workflow.name }} | Error: {{ $json.execution.error.message }} | Last node: {{ $json.execution.lastNodeExecuted }} | Execution URL: {{ $json.execution.url }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        224,
+        0
+      ],
+      "id": "ec718030-323b-413b-bb53-e5b2f690953c",
+      "name": "BuildErrorMessage"
+    },
+    {
+      "parameters": {
+        "authentication": "webhook",
+        "content": "={{ $json.content }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        448,
+        0
+      ],
+      "id": "a3462816-43bc-4161-be54-1f2b059e625e",
+      "name": "NotifyDiscord",
+      "webhookId": "1c0cb739-2cbe-4f16-ad49-0b352f85222a",
+      "credentials": {
+        "discordWebhookApi": {
+          "id": "Qkhb97cuj1DiQqGc",
+          "name": "n8n Quickstart S2 Error Discord Webhook account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "BuildErrorMessage",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "BuildErrorMessage": {
+      "main": [
+        [
+          {
+            "node": "NotifyDiscord",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "nodeGroups": [],
+  "pinData": {},
+  "versionId": "6938b0b4-6de6-4c78-a7d5-f3fcf28b831c",
+  "activeVersionId": null,
+  "versionCounter": 13,
+  "triggerCount": 0,
+  "sourceWorkflowId": null,
+  "tags": [],
+  "shared": [
+    {
+      "updatedAt": "2026-10-10T04:37:51.433Z",
+      "createdAt": "2026-10-10T04:37:51.433Z",
+      "role": "workflow:owner",
+      "workflowId": "DSAKn8I0UBW4BiJl",
+      "projectId": "KBPCETIjwp2AYjTc",
+      "project": {
+        "updatedAt": "2026-10-09T02:14:46.221Z",
+        "createdAt": "2026-10-09T02:12:33.875Z",
+        "id": "KBPCETIjwp2AYjTc",
+        "name": "Viacheslav Matvieiev <viacheslav.matvieiev.dev@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "customTelemetryTags": [],
+        "creatorId": "4d60987f-d322-4a77-982c-203661e8e9bc"
+      }
+    }
+  ],
+  "versionMetadata": {
+    "name": "Version 6938b0b4",
+    "description": ""
+  }
+}

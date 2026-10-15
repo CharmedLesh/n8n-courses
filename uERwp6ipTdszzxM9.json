@@ -1,0 +1,133 @@
+{
+  "updatedAt": "2026-10-13T10:27:40.951Z",
+  "createdAt": "2026-10-11T07:27:36.330Z",
+  "id": "uERwp6ipTdszzxM9",
+  "name": "Section 1 - Academy Registration",
+  "description": "",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "7f134395-722e-4b18-b80c-e835258c8876",
+      "name": "TriggerManual"
+    },
+    {
+      "parameters": {
+        "url": "https://learn.app.n8n.cloud/webhook/course/foundations/register",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "assessment_id",
+              "value": "6d8c13525788422441ad6d8b4e080b6d"
+            },
+            {
+              "name": "workflow_name",
+              "value": "Section 1 - Academy Registration"
+            },
+            {
+              "name": "tag",
+              "value": "foundations-course"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        224,
+        0
+      ],
+      "id": "415d460f-66bf-47c1-8138-70b7b7348eae",
+      "name": "SubmitRegistration",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "yuaXa4eD3roJWEjZ",
+          "name": "n8n Academy API Key"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "Academy Registration Workflow\nCreated by: Viacheslav Matvieiev\nDate: 11.10.2026\n\nThis workflow registers my n8n instance with the\nn8n Academy training system. It sends my assessment ID\nand workflow info to the Academy API.\n\nPart of: N8N101 Course, Section 1",
+        "width": 352
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -448,
+        -32
+      ],
+      "id": "8e15dc61-065f-45f6-a6db-bdb82b70753a",
+      "name": "Sticky Note"
+    }
+  ],
+  "connections": {
+    "TriggerManual": {
+      "main": [
+        [
+          {
+            "node": "SubmitRegistration",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "staticData": null,
+  "meta": null,
+  "nodeGroups": [],
+  "pinData": {},
+  "versionId": "d8d525e8-f6b8-4553-ad04-638b0dbd8ece",
+  "activeVersionId": null,
+  "versionCounter": 25,
+  "triggerCount": 0,
+  "sourceWorkflowId": null,
+  "tags": [
+    {
+      "updatedAt": "2026-10-11T07:28:33.223Z",
+      "createdAt": "2026-10-11T07:28:33.223Z",
+      "id": "w5JM8qUzgu9qzBOV",
+      "name": "n8n101"
+    }
+  ],
+  "shared": [
+    {
+      "updatedAt": "2026-10-11T07:27:36.337Z",
+      "createdAt": "2026-10-11T07:27:36.337Z",
+      "role": "workflow:owner",
+      "workflowId": "uERwp6ipTdszzxM9",
+      "projectId": "KBPCETIjwp2AYjTc",
+      "project": {
+        "updatedAt": "2026-10-09T02:14:46.221Z",
+        "createdAt": "2026-10-09T02:12:33.875Z",
+        "id": "KBPCETIjwp2AYjTc",
+        "name": "Viacheslav Matvieiev <viacheslav.matvieiev.dev@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "customTelemetryTags": [],
+        "creatorId": "4d60987f-d322-4a77-982c-203661e8e9bc"
+      }
+    }
+  ],
+  "versionMetadata": {
+    "name": null,
+    "description": null
+  }
+}

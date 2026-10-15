@@ -1,0 +1,143 @@
+{
+  "updatedAt": "2026-10-13T10:27:31.276Z",
+  "createdAt": "2026-10-13T09:24:02.586Z",
+  "id": "DeXDnFuq30lTUMRT",
+  "name": "Section 2 - Failure Test",
+  "description": "",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "path": "course/n8n103/failure-test",
+        "authentication": "headerAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "98be132e-d2cb-4fb7-8fc2-06354cba17a5",
+      "name": "TriggerWebhook",
+      "webhookId": "032dc33e-197d-4141-9505-b13046c65d35",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "yuaXa4eD3roJWEjZ",
+          "name": "n8n Academy API Key"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://learn.app.n8n.cloud/webhook/course/n8n103/guaranteed-failure",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-Assessment-ID",
+              "value": "6d8c13525788422441ad6d8b4e080b6d"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        224,
+        0
+      ],
+      "id": "eb4c8426-31a4-4410-9367-e3abe90e4c44",
+      "name": "CallFailingEndpoint",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "yuaXa4eD3roJWEjZ",
+          "name": "n8n Academy API Key"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "# Section 2 - Failure Test\n\nOwned By: Your Name\nLast Updated: Date\n\nWebhook workflow that intentionally fails to test error workflow\ntriggering. Called by the main Debugging Practice workflow.\n\n## Endpoint\n- GET /webhook/course/n8n103/failure-test\n- Authentication: Header Auth (n8n Academy API Key)\n\n## Flow\n1. TriggerWebhook: Receives request and responds immediately\n2. CallFailingEndpoint: Calls guaranteed-failure endpoint and throws\n3. Execution ends in an unhandled error\n4. Linked Error Workflow (Section 2 - Error Handler) runs\n\n## Error Configuration\n- CallFailingEndpoint left on default On Error (Stop Workflow)\n- Error Workflow linked to Section 2 - Error Handler\n\n## Requirements\n- Must be published for production execution\n- Must have Error Workflow configured in settings\n\nPart of: n8n Foundations Program, N8N103 Course, Section 2",
+        "height": 592,
+        "width": 480
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -80,
+        -640
+      ],
+      "typeVersion": 1,
+      "id": "099fe69d-b9a3-45d5-adc3-3b4c0df5fcb6",
+      "name": "Sticky Note"
+    }
+  ],
+  "connections": {
+    "TriggerWebhook": {
+      "main": [
+        [
+          {
+            "node": "CallFailingEndpoint",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "timeSavedMode": "fixed",
+    "errorWorkflow": "sXu7gZDzJthPWZnz",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "nodeGroups": [],
+  "pinData": {},
+  "versionId": "1424256c-48f6-49a0-bfe2-d3fae708e58d",
+  "activeVersionId": null,
+  "versionCounter": 17,
+  "triggerCount": 1,
+  "sourceWorkflowId": null,
+  "tags": [
+    {
+      "updatedAt": "2026-10-13T07:17:29.434Z",
+      "createdAt": "2026-10-13T07:17:29.434Z",
+      "id": "hYrUMkfdmqZ547Ix",
+      "name": "n8n103"
+    }
+  ],
+  "shared": [
+    {
+      "updatedAt": "2026-10-13T09:24:02.588Z",
+      "createdAt": "2026-10-13T09:24:02.588Z",
+      "role": "workflow:owner",
+      "workflowId": "DeXDnFuq30lTUMRT",
+      "projectId": "KBPCETIjwp2AYjTc",
+      "project": {
+        "updatedAt": "2026-10-09T02:14:46.221Z",
+        "createdAt": "2026-10-09T02:12:33.875Z",
+        "id": "KBPCETIjwp2AYjTc",
+        "name": "Viacheslav Matvieiev <viacheslav.matvieiev.dev@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "customTelemetryTags": [],
+        "creatorId": "4d60987f-d322-4a77-982c-203661e8e9bc"
+      }
+    }
+  ],
+  "versionMetadata": {
+    "name": null,
+    "description": null
+  }
+}

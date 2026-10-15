@@ -1,0 +1,92 @@
+{
+  "updatedAt": "2026-10-13T10:27:46.367Z",
+  "createdAt": "2026-10-09T20:20:33.918Z",
+  "id": "EFa2EKxf1E3MJVbC",
+  "name": "Hacker News workflow",
+  "description": null,
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -32,
+        -16
+      ],
+      "id": "52064d97-a017-40f6-9e8b-522403ddfc92",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "resource": "all",
+        "limit": 10,
+        "additionalFields": {
+          "keyword": "automation"
+        }
+      },
+      "type": "n8n-nodes-base.hackerNews",
+      "typeVersion": 1,
+      "position": [
+        192,
+        -16
+      ],
+      "id": "bb943d17-e83f-459c-9d73-67bf603981f7",
+      "name": "Get many items from Hacker News",
+      "notesInFlow": true,
+      "notes": "Get the 10 latest articles"
+    }
+  ],
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Get many items from Hacker News",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "staticData": null,
+  "meta": null,
+  "nodeGroups": [],
+  "pinData": {},
+  "versionId": "28faa0d9-906e-40ba-bf10-be20d56f5600",
+  "activeVersionId": null,
+  "versionCounter": 34,
+  "triggerCount": 0,
+  "sourceWorkflowId": null,
+  "tags": [],
+  "shared": [
+    {
+      "updatedAt": "2026-10-09T20:20:33.920Z",
+      "createdAt": "2026-10-09T20:20:33.920Z",
+      "role": "workflow:owner",
+      "workflowId": "EFa2EKxf1E3MJVbC",
+      "projectId": "KBPCETIjwp2AYjTc",
+      "project": {
+        "updatedAt": "2026-10-09T02:14:46.221Z",
+        "createdAt": "2026-10-09T02:12:33.875Z",
+        "id": "KBPCETIjwp2AYjTc",
+        "name": "Viacheslav Matvieiev <viacheslav.matvieiev.dev@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "customTelemetryTags": [],
+        "creatorId": "4d60987f-d322-4a77-982c-203661e8e9bc"
+      }
+    }
+  ],
+  "versionMetadata": {
+    "name": null,
+    "description": null
+  }
+}

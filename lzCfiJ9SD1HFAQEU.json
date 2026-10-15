@@ -1,0 +1,272 @@
+{
+  "updatedAt": "2026-10-13T10:27:37.242Z",
+  "createdAt": "2026-10-12T11:56:37.062Z",
+  "id": "lzCfiJ9SD1HFAQEU",
+  "name": "Section 2 - Order Webhook Processor",
+  "description": "",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "course/n8n102/new-order",
+        "authentication": "headerAuth",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        -128
+      ],
+      "id": "e67c6eb6-58ae-4a32-b53e-090de0d52ba9",
+      "name": "WebhookNewOrder",
+      "webhookId": "ac33e7ea-23ec-4c36-8f11-e9003d27c873",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "yuaXa4eD3roJWEjZ",
+          "name": "n8n Academy API Key"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "545f7454-f735-49ae-a514-f98ea37b38f9",
+              "leftValue": "={{ $json.body.order_id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "55f31565-3c31-4d1b-90da-16f954de5092",
+              "leftValue": "={{ $json.body.customer_id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "f855c6ce-81fa-4530-9cef-e45f1983a01c",
+              "leftValue": "={{ $json.body.total }}",
+              "rightValue": "",
+              "operator": {
+                "type": "number",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        224,
+        -128
+      ],
+      "id": "400ff299-809f-4a56-90ae-0e050f542cc5",
+      "name": "ValidateRequiredFields"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"status\": \"accepted\",\n  \"order_id\": \"{{ $('ExecuteProcessOrder').item.json.order_id }}\",\n  \"message\": \"Order processed successfully\",\n  \"stored\": {{ $('ExecuteProcessOrder').item.json.stored }},\n  \"stored_order\": {{ $('ExecuteProcessOrder').item.json.stored_order }},\n  \"processed\": true,\n  \"processing_result\": \"{{ $('ExecuteProcessOrder').item.json.processing_result }}\"\n}",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        672,
+        -224
+      ],
+      "id": "65873c6b-e491-48ad-ad98-39f6a379f6b2",
+      "name": "RespondSuccess"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "{\n  \"status\": \"error\",\n  \"message\": \"Missing required fields: order_id, customer_id, and total are required\"\n}",
+        "options": {
+          "responseCode": 400
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        448,
+        -32
+      ],
+      "id": "02c07dc0-e918-485d-bc5c-7d0956bf535f",
+      "name": "RespondValidationError"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "yLJndjPbMdLio4vC",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/yLJndjPbMdLio4vC",
+          "cachedResultName": "Section 2 - Process Order (Sub-workflow)"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "order_id": "={{ $('WebhookNewOrder').item.json.body.order_id }}",
+            "customer_id": "={{ $('WebhookNewOrder').item.json.body.customer_id }}",
+            "total": "={{ $('WebhookNewOrder').item.json.body.total }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "order_id",
+              "displayName": "order_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "customer_id",
+              "displayName": "customer_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "total",
+              "displayName": "total",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.4,
+      "position": [
+        448,
+        -224
+      ],
+      "id": "6b44f602-529e-49c4-8cb5-6f4c2b52c897",
+      "name": "ExecuteProcessOrder"
+    }
+  ],
+  "connections": {
+    "WebhookNewOrder": {
+      "main": [
+        [
+          {
+            "node": "ValidateRequiredFields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ValidateRequiredFields": {
+      "main": [
+        [
+          {
+            "node": "ExecuteProcessOrder",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "RespondValidationError",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ExecuteProcessOrder": {
+      "main": [
+        [
+          {
+            "node": "RespondSuccess",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "nodeGroups": [],
+  "pinData": {},
+  "versionId": "5f32a581-8975-4b40-bce0-2c0402dd285d",
+  "activeVersionId": null,
+  "versionCounter": 52,
+  "triggerCount": 1,
+  "sourceWorkflowId": null,
+  "tags": [
+    {
+      "updatedAt": "2026-10-12T06:57:25.930Z",
+      "createdAt": "2026-10-12T06:57:25.930Z",
+      "id": "H6EexnqqGksJAsP0",
+      "name": "n8n102"
+    }
+  ],
+  "shared": [
+    {
+      "updatedAt": "2026-10-12T11:56:37.066Z",
+      "createdAt": "2026-10-12T11:56:37.066Z",
+      "role": "workflow:owner",
+      "workflowId": "lzCfiJ9SD1HFAQEU",
+      "projectId": "KBPCETIjwp2AYjTc",
+      "project": {
+        "updatedAt": "2026-10-09T02:14:46.221Z",
+        "createdAt": "2026-10-09T02:12:33.875Z",
+        "id": "KBPCETIjwp2AYjTc",
+        "name": "Viacheslav Matvieiev <viacheslav.matvieiev.dev@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "customTelemetryTags": [],
+        "creatorId": "4d60987f-d322-4a77-982c-203661e8e9bc"
+      }
+    }
+  ],
+  "versionMetadata": {
+    "name": "Version 5f32a581",
+    "description": ""
+  }
+}

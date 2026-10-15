@@ -1,0 +1,278 @@
+{
+  "updatedAt": "2026-10-13T10:27:44.674Z",
+  "createdAt": "2026-10-09T23:23:27.507Z",
+  "id": "SwuJ29KwGbrxhJdB",
+  "name": "Merging Data",
+  "description": null,
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -16,
+        2576
+      ],
+      "id": "345830e5-46c7-4070-aa5c-45c712653c14",
+      "name": "ManualTrigger"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "value": "nI35mLvo0yW8Z13B",
+          "mode": "list",
+          "cachedResultName": "customers",
+          "cachedResultUrl": "/projects/KBPCETIjwp2AYjTc/datatables/nI35mLvo0yW8Z13B"
+        },
+        "returnAll": true
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        208,
+        2464
+      ],
+      "id": "f89964cc-b5af-4c46-9737-808484a545f1",
+      "name": "GetCustomers"
+    },
+    {
+      "parameters": {
+        "url": "https://learn.app.n8n.cloud/webhook/countries",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        208,
+        2688
+      ],
+      "id": "c5363407-0c5b-467e-8c27-ff6123598c4a",
+      "name": "GetCountries"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "advanced": true,
+        "mergeByFields": {
+          "values": [
+            {
+              "field1": "customerCountry",
+              "field2": "name"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        448,
+        2576
+      ],
+      "id": "d3a82b66-39ad-4e39-be1a-5ba691b072cc",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "dataTableId": {
+          "__rl": true,
+          "value": "nI35mLvo0yW8Z13B",
+          "mode": "list",
+          "cachedResultName": "customers",
+          "cachedResultUrl": "/projects/KBPCETIjwp2AYjTc/datatables/nI35mLvo0yW8Z13B"
+        },
+        "filters": {
+          "conditions": [
+            {
+              "keyValue": "={{ $json.id }}"
+            }
+          ]
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "region": "={{ $json.region }}",
+            "subregion": "={{ $json.subregion }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "customerID",
+              "displayName": "customerID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "customerCountry",
+              "displayName": "customerCountry",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "customerEmail",
+              "displayName": "customerEmail",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "customerSince",
+              "displayName": "customerSince",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "region",
+              "displayName": "region",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "subregion",
+              "displayName": "subregion",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        672,
+        2576
+      ],
+      "id": "afe9870c-e23d-45bd-a530-da493100dc96",
+      "name": "UpdateCustomers"
+    }
+  ],
+  "connections": {
+    "ManualTrigger": {
+      "main": [
+        [
+          {
+            "node": "GetCustomers",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "GetCountries",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GetCustomers": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GetCountries": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "UpdateCustomers",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "staticData": null,
+  "meta": null,
+  "nodeGroups": [],
+  "pinData": {
+    "ManualTrigger": [
+      {
+        "json": {},
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "versionId": "fa685d9f-988c-42b5-a0d9-f1b6db1df72f",
+  "activeVersionId": null,
+  "versionCounter": 206,
+  "triggerCount": 0,
+  "sourceWorkflowId": null,
+  "tags": [],
+  "shared": [
+    {
+      "updatedAt": "2026-10-09T23:23:27.509Z",
+      "createdAt": "2026-10-09T23:23:27.509Z",
+      "role": "workflow:owner",
+      "workflowId": "SwuJ29KwGbrxhJdB",
+      "projectId": "KBPCETIjwp2AYjTc",
+      "project": {
+        "updatedAt": "2026-10-09T02:14:46.221Z",
+        "createdAt": "2026-10-09T02:12:33.875Z",
+        "id": "KBPCETIjwp2AYjTc",
+        "name": "Viacheslav Matvieiev <viacheslav.matvieiev.dev@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "customTelemetryTags": [],
+        "creatorId": "4d60987f-d322-4a77-982c-203661e8e9bc"
+      }
+    }
+  ],
+  "versionMetadata": {
+    "name": null,
+    "description": null
+  }
+}
